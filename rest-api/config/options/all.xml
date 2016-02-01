@@ -4,9 +4,9 @@
 
   <!-- Limit all searches to this additional query -->
   <additional-query>
-    <cts:collection-query xmlns:cts="http://marklogic.com/cts">
-      <cts:uri>data</cts:uri>
-    </cts:collection-query>
+    <cts:directory-query xmlns:cts="http://marklogic.com/cts">
+      <cts:uri>/shakespeare/</cts:uri>
+    </cts:directory-query>
   </additional-query>
 
   <!-- Full-text search options -->
@@ -74,43 +74,28 @@
   <!-- Annotations (allowed pretty much anywhere) allow adding text or elements to feed custom components with options that would normally not validate) -->
   <annotation>Delta options here</annotation>
 
-  <!-- Facet based on document collections, simple yet elegant -->
-  <constraint name="Collection">
-    <collection facet="true" />
-    <!-- optionally enable a prefix to see a specific subset of facets
-    <collection facet="true" prefix="data/" />
-    -->
-  </constraint>
-
-  <!-- Example facet based on the sample-data -->
-  <constraint name="eyeColor">
-    <range type="xs:string" facet="true" collation="http://marklogic.com/collation/codepoint">
-      <facet-option>limit=5</facet-option>
-      <facet-option>frequency-order</facet-option>
-      <facet-option>descending</facet-option>
-      <json-property>eyeColor</json-property>
-    </range>
-  </constraint>
-
-  <!-- example facet constraint below -->
-  <!--
-  <constraint name="myconstraint">
+  <constraint name="speaker">
     <range type="xs:string" facet="true">
-      <facet-option>limit=5</facet-option>
+      <facet-option>limit=10</facet-option>
       <facet-option>frequency-order</facet-option>
       <facet-option>descending</facet-option>
-      <element ns="" name="my-el"/>
+      <element ns="http://www.tei-c.org/ns/1.0" name="speaker"/>
     </range>
   </constraint>
-  -->
-
-  <!-- example suggestion-source below -->
-  <!--
-  <suggestion-source ref="myconstraint">
+  <constraint name="header">
+    <range type="xs:string" facet="false">
+      <facet-option>limit=10</facet-option>
+      <facet-option>frequency-order</facet-option>
+      <facet-option>descending</facet-option>
+      <element ns="" name="label"/>
+    </range>
+  </constraint>
+  <suggestion-source ref="type">
     <suggestion-option>frequency-order</suggestion-option>
     <suggestion-option>descending</suggestion-option>
-    <suggestion-option>limit=10</suggestion-option>
   </suggestion-source>
-  -->
-
+  <suggestion-source ref="speaker">
+    <suggestion-option>frequency-order</suggestion-option>
+    <suggestion-option>descending</suggestion-option>
+  </suggestion-source>
 </options>

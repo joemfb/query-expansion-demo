@@ -239,9 +239,9 @@
       <range-element-indexes>
         <range-element-index>
           <scalar-type>string</scalar-type>
-          <namespace-uri/>
-          <localname>eyeColor</localname>
-          <collation>http://marklogic.com/collation/codepoint</collation>
+          <namespace-uri>http://www.tei-c.org/ns/1.0</namespace-uri>
+          <localname>speaker head</localname>
+          <collation>http://marklogic.com/collation/</collation>
           <range-value-positions>false</range-value-positions>
         </range-element-index>
 
