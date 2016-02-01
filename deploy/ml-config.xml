@@ -1,7 +1,7 @@
 <configuration default-group="@ml.group">
   <!--
     default-group applies to databases
-    
+
     @ml.group defaults to "Default", you can override in build.properties or {env}.properties
     Note: if you change ml.group, make sure to assign hosts to it! See <hosts> below.
   -->
@@ -173,6 +173,7 @@
       <collection-lexicon>true</collection-lexicon>
       <directory-creation>manual</directory-creation>
       <maintain-last-modified>false</maintain-last-modified>
+      <triple-index>true</triple-index>
 <!--
       <fragment-roots>
         <fragment-root>

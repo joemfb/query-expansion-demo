@@ -14,6 +14,7 @@
     'app.root',
     'app.search',
     'app.user',
+    'app.manage-synonyms',
     'ui.bootstrap',
     'ui.router',
     'ui.tinymce'

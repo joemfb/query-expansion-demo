@@ -89,6 +89,12 @@
           }
         }
       })
+      .state('root.manage-synonyms', {
+        url: '/manage-synonyms',
+        templateUrl: 'app/manage-synonyms/manage-synonyms.html',
+        controller: 'ManageSynonymsCtrl',
+        controllerAs: 'ctrl'
+      })
       .state('root.profile', {
         url: '/profile',
         templateUrl: 'app/user/profile.html',

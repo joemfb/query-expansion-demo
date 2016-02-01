@@ -1,0 +1,38 @@
+<div class="row detail">
+  <div class="col-sm-9">
+    <h2>manage synonyms</h2>
+    <div class="row">
+      <div class="col-sm-6">
+        <table class="table table-striped">
+          <tr>
+            <th class="col-sm-4">term</th>
+            <th class="col-sm-4">synonym</th>
+            <th></th>
+          </tr>
+          <tr>
+            <td>
+              <input name="term" ng-model="ctrl.newSynonym.term">
+            </td>
+            <td>
+              <input name="synonym" ng-model="ctrl.newSynonym.synonym">
+            </td>
+            <td class="col-sm-1">
+              <button class="btn btn-default btn-xs" ng-click="ctrl.addSynonym()">
+                add <i class="fa fa-plus"></i>
+              </button>
+            </td>
+          </tr>
+          <tr ng-repeat="obj in ctrl.synonyms">
+            <td>{{ obj.term }}</td>
+            <td>{{ obj.synonym }}</td>
+            <td>
+              <button class="btn btn-default btn-xs" ng-click="ctrl.deleteSynonym(obj)">
+                delete <i class="fa fa-close"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </tr>
+    </div>
+  </div>
+</div>
