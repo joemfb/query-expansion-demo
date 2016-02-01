@@ -1,0 +1,112 @@
+{
+  function joinNested(x) {
+    return x.map(function(y) {
+      return Array.isArray(y) ? joinNested(y) : y
+    }).join('')
+  }
+}
+
+// match all rules, consuming the entire input
+root = a:all EOF { return a }
+
+// groups
+
+nearGroup = l:item space d:(nearDistance/ (near $ [^/])) r:item {
+  var result = {
+    near: { left: l, right: r }
+  }
+
+  if (d && d.distance) {
+    result.near.distance = d.distance
+  }
+
+  return result
+}
+
+booleanGroup = l:item space b:boolean r:item {
+  return {
+    boolean: { left: l, operator: b, right: r }
+  }
+}
+
+group = space? opengroup g:item+ closegroup {
+  return { group: g }
+}
+
+negated = space? negate i:nonNegated {
+  return { negate: i }
+}
+
+// collections
+
+all = (booleanGroup / nearGroup / item)+
+
+item = negated / nonNegated
+
+nonNegated = (group / constraint / constraintOperator / term)
+
+// types
+
+constraint = space? n:word separator v:phrase {
+  return {
+    constraint: { name: n, value: v }
+  }
+}
+
+constraintOperator = space? n:word space o:operator space v:phrase {
+  return {
+    constraint: { name: n, operator: o, value: v }
+  }
+}
+
+term = space? !boolean !operator !negate t:phrase {
+  return { term: t }
+}
+
+// primitives
+
+phrase = doublequoted / singlequoted / word
+
+doublequoted = doublequote space? v:(quotableword (space quotableword)*)+ space? doublequote {
+  return joinNested(v)
+}
+
+singlequoted = singlequote space? v:(quotableword (space quotableword)*)+ space? singlequote {
+  return joinNested(v)
+}
+
+nearDistance = near '/' d:[0-9]+ {
+  return { distance: parseInt(d.join(''), 10) }
+}
+
+near = 'NEAR'
+
+operator = $ lessthan / lessthanequal / greaterthan / greaterthanequal / notequal
+
+lessthan = 'LT'
+lessthanequal = 'LE'
+greaterthan = 'GT'
+greaterthanequal = 'GE'
+notequal= 'NE'
+
+boolean = $ 'AND' / 'OR' / 'NOT'
+
+quotableword = word //$ [^\n\t ]+
+
+word = $ [^\n\t :()"']+
+
+opengroup = '('
+
+closegroup = ')'
+
+singlequote = '\''
+
+doublequote = '"'
+
+separator = ':'
+
+negate = '-'
+
+space = [\n\t ]+ { return ' ' }
+
+EOF = !.
