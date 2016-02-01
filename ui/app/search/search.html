@@ -9,13 +9,31 @@
 <div class="search row" ng-if="ctrl.currentUser">
   <ml-facets class="col-md-3 right-col" facets="ctrl.response.facets" toggle="ctrl.toggleFacet(facet, value)" active-facets="ctrl.mlSearch.activeFacets" negate="ctrl.toggleNegatedFacet(facet,value)"></ml-facets>
   <div class="col-md-9">
+    <a class="btn btn-default" ng-click="ctrl.doSynonyms = !ctrl.doSynonyms; ctrl._search()">
+      <span ng-if="ctrl.doSynonyms">disable synonyms</span>
+      <span ng-if="!ctrl.doSynonyms">enable synonyms</span>
+    </a>
+    <div class="expansions" ng-if="ctrl.expansions.length">
+      <h4>query expansions</h4>
+      <ul>
+        <li ng-repeat="expansion in ctrl.expansions">
+          <p>
+            <span>{{ expansion.term }}</span>
+            <span ng-if="expansion.synonyms.length">
+              (<span ng-repeat="synonym in expansion.synonyms"><em>{{ synonym }}</em><span ng-if="!$last">, </span></span>)
+            </span>
+            <span ng-if="!expansion.synonyms.length" class="fa fa-ban"></span>
+          </p>
+        </li>
+      </ul>
+    </div>
     <h4 ng-if="ctrl.response.total === 0">No results to show</h4>
 
     <div ng-if="ctrl.response.total > 0" class="results">
       <div class="pagination-ctrls">
         <pagination class="pagination pagination-sm" ng-model="ctrl.page" ng-change="ctrl.search()" max-size="10" boundary-links="true" total-items="ctrl.response.total" items-per-page="ctrl.response['page-length']">
         </pagination>
-        <ml-snippet set-snippet="ctrl.setSnippet(type)"></ml-snippet>
+        <!--<ml-snippet set-snippet="ctrl.setSnippet(type)"></ml-snippet>-->
       </div>
       <ml-metrics search="ctrl.response" ></ml-metrics>
       <ml-results template="app/search/search-results.html" results="ctrl.response.results"></ml-results>
